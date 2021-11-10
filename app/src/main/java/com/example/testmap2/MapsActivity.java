@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.testmap2.databinding.ActivityMapsBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
 
     List<Location> savedLocations;
+    LatLng Loja = new LatLng(-3.982172, -79.205016);
+
+    private ArrayList<LatLng> locationArrayList;
 
 
     @Override
@@ -38,6 +42,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        locationArrayList = new ArrayList<>();
+        locationArrayList.add(Loja);
 
         MyApplication myApplication = (MyApplication)getApplicationContext();
         savedLocations = myApplication.getMyLocations();
@@ -55,6 +62,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        for (int i = 0; i < locationArrayList.size(); i++) {
+
+            // below line is use to add marker to each location of our array list.
+            mMap.addMarker(new MarkerOptions().position(locationArrayList.get(i)).title("Marker"));
+
+        }
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
